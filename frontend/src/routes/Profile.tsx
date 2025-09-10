@@ -42,11 +42,8 @@ export function ProfilePage() {
     if (!token) return
     if (!confirm('Account wirklich löschen?')) return
     try {
-      await fetch('http://localhost:3001/delete_account', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        credentials: 'omit',
-      })
+      const { apiCall } = await import('@lib/config')
+      await apiCall('delete_account', {}, token)
     } catch {}
     clearAuth()
     window.location.reload()

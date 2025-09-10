@@ -117,10 +117,11 @@ export function App() {
     // On app load after login, hydrate from cloud state
     const token = getToken()
     if (token) {
-      fetch('http://localhost:3001/state', { headers: { Authorization: `Bearer ${token}` }, credentials: 'omit' })
-        .then(r => r.ok ? r.json() : null)
-        .then(json => json && json.data && useAppStore.getState().hydrateFromCloud(json.data))
-        .catch(() => {})
+      import('@lib/config').then(({ apiGet }) => {
+        apiGet('state', token)
+          .then(json => json && json.data && useAppStore.getState().hydrateFromCloud(json.data))
+          .catch(() => {})
+      })
     }
   }, [])
   return (

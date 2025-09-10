@@ -118,12 +118,9 @@ export const useAppStore = create<Store>((set, get) => {
     saveState(state)
     const token = localStorage.getItem('gw_token')
     if (token) {
-      fetch('http://localhost:3001/state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ data: state }),
-        credentials: 'omit',
-      }).catch(() => {})
+      import('@lib/config').then(({ apiCall }) => {
+        apiCall('state', { data: state }, token).catch(() => {})
+      })
     }
   }, 500)
   let lastTick = Date.now()
@@ -329,12 +326,9 @@ export const useAppStore = create<Store>((set, get) => {
       // Also clear backend state if logged in
          const token = localStorage.getItem('gw_token')
          if (token) {
-           fetch('http://localhost:3001/state', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-             body: JSON.stringify({ data: next }),
-             credentials: 'omit',
-           }).catch(() => {})
+           import('@lib/config').then(({ apiCall }) => {
+             apiCall('state', { data: next }, token).catch(() => {})
+           })
          }
          return next
        }),

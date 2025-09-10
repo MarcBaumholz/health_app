@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { apiCall } from '@lib/config'
 
 export function AiAssistant() {
   const [work, setWork] = useState('')
@@ -11,12 +12,7 @@ export function AiAssistant() {
     setLoading(true)
     setResult({})
     try {
-      const resp = await fetch('http://localhost:3001/recommendations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ work_pattern: work, posture, complaints })
-      })
-      const data = await resp.json()
+      const data = await apiCall('recommendations', { work_pattern: work, posture, complaints })
       setResult(data)
     } catch (e) {
       setResult({ tips: 'Fehler beim Abrufen der Empfehlungen.' })

@@ -1,16 +1,19 @@
 import { getToken } from './auth'
+import { apiCall, apiGet } from '@lib/config'
 
 export async function saveCloudState(state: any) {
   const token = getToken()
   if (!token) return
-  await fetch('http://localhost:3001/state', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify({ data: state }) })
+  await apiCall('state', { data: state }, token)
 }
 
 export async function loadCloudState() {
   const token = getToken()
   if (!token) return null
-  const resp = await fetch('http://localhost:3001/state', { headers: { 'Authorization': `Bearer ${token}` } })
-  if (!resp.ok) return null
-  const j = await resp.json()
-  return j.data
+  try {
+    const j = await apiGet('state', token)
+    return j.data
+  } catch {
+    return null
+  }
 }

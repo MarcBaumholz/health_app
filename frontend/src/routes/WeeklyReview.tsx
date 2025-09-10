@@ -57,10 +57,8 @@ export function WeeklyReviewPage() {
       focus: data.focusMinutes,
       labels: data.dates,
     }
-    const resp = await fetch('http://localhost:3001/weekly_summary', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
-    })
-    const js = await resp.json()
+    const { apiCall } = await import('@lib/config')
+    const js = await apiCall('weekly_summary', payload)
     return js.summary as string
   }
 

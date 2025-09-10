@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, Button, Input, Textarea } from '@components/ui'
 import { useState } from 'react'
+import { apiCall } from '@lib/config'
 
 export function AiAssistantPage() {
   const [work, setWork] = useState('')
@@ -12,11 +13,8 @@ export function AiAssistantPage() {
     setLoading(true)
     setResult({})
     try {
-      const resp = await fetch('http://localhost:3001/recommendations', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ work_pattern: work, posture, complaints })
-      })
-      setResult(await resp.json())
+      const data = await apiCall('recommendations', { work_pattern: work, posture, complaints })
+      setResult(data)
     } finally { setLoading(false) }
   }
 

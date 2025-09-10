@@ -1,12 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, Button, Input } from '@components/ui'
 import { setToken, setEmail } from '@state/auth'
-
-async function api(path: string, data: any) {
-  const resp = await fetch(`http://localhost:3001/${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'omit' })
-  if (!resp.ok) throw new Error(await resp.text())
-  return resp.json()
-}
+import { apiCall } from '@lib/config'
 
 export function AuthPage({ onAuth }: { onAuth: () => void }) {
   const [email, setEmail] = useState('')
@@ -19,19 +14,19 @@ export function AuthPage({ onAuth }: { onAuth: () => void }) {
     try {
       setErr('')
       if (mode === 'signup') {
-        const res = await api('signup', { email, password })
+        const res = await apiCall('signup', { email, password })
         setMode('verify')
         setEmail(email)
         setErr('Bestätigungscode (dev): ' + (res.code || 'gesendet'))
         return
       }
       if (mode === 'verify') {
-        const res = await api('verify', { email, code })
+        const res = await apiCall('verify', { email, code })
         setToken(res.token)
         setEmail(email)
         onAuth(); return
       }
-      const res = await api('login', { email, password })
+      const res = await apiCall('login', { email, password })
       setToken(res.token)
       setEmail(email)
       onAuth()
