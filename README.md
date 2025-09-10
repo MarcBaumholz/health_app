@@ -28,6 +28,18 @@ A local-first health/productivity app. All user data is stored in the browser vi
 - `backend/` FastAPI service
 - Project docs at repo root: `README.md`, `PLANNING.md`, `TASK.md`, `TECH_STACK.md`
 
+## Deployment
+
+The app is automatically deployed to GitHub Pages via GitHub Actions:
+
+- **Live App**: https://marcbaumholz.github.io/health_app/
+- **Repository**: https://github.com/MarcBaumholz/health_app
+
+### GitHub Pages Setup
+1. Go to repository Settings → Pages
+2. Set Source to "GitHub Actions"
+3. The workflow will automatically build and deploy on every push to main
+
 ## Next Steps
 - Scaffold frontend & backend
 - Implement state schema & tests
