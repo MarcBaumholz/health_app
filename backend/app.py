@@ -17,10 +17,15 @@ app = FastAPI(title="GesundWerk Backend")
 init_db()
 LAST_NOTIFY: Dict[int, float] = {}
 
-# Enable CORS for local dev
+# Enable CORS for local dev and GitHub Pages
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",  # Vite dev server
+        "http://localhost:3000",  # Alternative dev port
+        "https://marcbaumholz.github.io",  # GitHub Pages
+        "https://*.github.io",  # Any GitHub Pages subdomain
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
