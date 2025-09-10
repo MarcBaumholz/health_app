@@ -1,0 +1,21 @@
+[project]
+name = "gesundwerk-backend"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "pydantic",
+  "python-dotenv",
+  "google-generativeai",
+  "sqlmodel",
+  "passlib[bcrypt]",
+  "bcrypt==3.2.2",
+  "PyJWT",
+]
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
