@@ -14,8 +14,23 @@ from typing import Dict, Optional
 load_dotenv()
 
 app = FastAPI(title="GesundWerk Backend")
-init_db()
-LAST_NOTIFY: Dict[int, float] = {}
+
+# Health check endpoint
+@app.get("/")
+async def root():
+    return {"message": "GesundWerk Backend is running", "status": "healthy"}
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "timestamp": time()}
+
+# Initialize database
+try:
+    init_db()
+    LAST_NOTIFY: Dict[int, float] = {}
+except Exception as e:
+    print(f"Database initialization warning: {e}")
+    LAST_NOTIFY: Dict[int, float] = {}
 
 # Enable CORS for local dev and GitHub Pages
 app.add_middleware(
